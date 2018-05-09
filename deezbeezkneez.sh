@@ -2,10 +2,10 @@
 
 # Gloabal Variables
 ECHO="echo -e"
-SMLOADER="$HOME/bin/SMLoadr" # Path to SMloader tool
+SMLOADR="$HOME/bin/SMLoadr" # Path to SMloader tool
 OUTPUT="$HOME/files/Music/"  # Path to output folder
-LOGDATE="date +%Y%m%d%H%M%S"
-LOG="tee -a $OUTPUT/deezbeezknees$LOGDATE.log" # Path to logfile
+# LOGDATE="date +%Y%m%d%H%M%S"
+LOG="tee -a $OUTPUT/deezbeezknees.log" # Path to logfile
 
 mir() {
   # rm -rf "$OUTPUT"/mirrordeezer.log # Removing existing mirrordeezer.log
@@ -29,13 +29,13 @@ mir() {
     "--delay"
     "--eta")
 
-  local smloaderARGS=("--quality='FLAC'"
+  local smloadrARGS=("--quality='FLAC'"
     "--downloadmode='single'"
     "--path=$OUTPUT")
 
-  local smloaderSITE="https://www.deezer.com/us/ar/us/artist/"
+  local smloadrSITE="https://www.deezer.com/us/ar/us/artist/"
 
-  seq $x | parallel "${parallelARGS[@]}" "$SMLOADER" "${smloaderARGS[@]}" ${smloaderSITE}{}
+  seq $x | parallel "${parallelARGS[@]}" "$SMLOADR" "${smloadrARGS[@]}" ${smloadrSITE}{}
   $ECHO "" | "$LOG"
   $ECHO "" | "$LOG"
 }
@@ -62,19 +62,19 @@ mirtocloud() {
     "--delay"
     "--eta")
 
-  local smloaderARGS=("--quality='FLAC'"
+  local smloadrARGS=("--quality='FLAC'"
     "--downloadmode='single'"
     "--path=$OUTPUT")
 
-  local smloaderSITE="https://www.deezer.com/us/ar/us/artist/"
+  local smloadrSITE="https://www.deezer.com/us/ar/us/artist/"
 
   local rcloneREMOTE="omg"
   local rcloneOUTPUT="OMG_share/Plex-Media/deezbeezkneez/*"
 
   local rcloneARGS="--checksum"
 
-  seq $x | parallel "${parallelARGS[@]}" "$SMLOADER" "${smloaderARGS[@]}" \
-  ${smloaderSITE}{} | rclone rcat $rcloneREMOTE:"$rcloneOUTPUT" "$rcloneARGS"
+  seq $x | parallel "${parallelARGS[@]}" "$SMLOADR" "${smloadrARGS[@]}" \
+  ${smloadrSITE}{} | rclone rcat $rcloneREMOTE:"$rcloneOUTPUT" "$rcloneARGS"
   $ECHO "" | "$LOG"
   $ECHO "" | "$LOG"
 }
@@ -84,15 +84,15 @@ smloader() {
   rm -rf "$OUTPUT"/mirrordeezer.log
 }
 cfg() {
-  $SMLOADER
+  $SMLOADR
 }
 install() {
+  local packageURL="https://u.teknik.io/QfOC8.zip"
   mkdir -p ~/bin
-  rm -rf ~/bin/TTaKn.zip
-  rm -rf ~/bin/SMloader-*
-  rm -rf ~/bin/TTaKn*
-  wget -q -O ~/bin/TTaKn.zip https://u.teknik.io/TTaKn.zip && \
-  unzip -qo -d ~/bin/ ~/bin/TTaKn.zip && \
+  rm -rf ~/bin/SMLoadr.zip
+  rm -rf ~/bin/SMLoadr*
+  wget -q -O ~/bin/SMLoadr.zip "$packageURL" && \
+  unzip -qo -d ~/bin/ ~/bin/SMLoadr.zip && \
   mv ~/bin/SMLoadr-* ~/bin/SMLoadr && \
   chmod +x ~/bin/SMLoadr && \
   $ECHO "Installation to ~/bin/ Complete"
