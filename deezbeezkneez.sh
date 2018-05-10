@@ -3,7 +3,7 @@
 # Gloabal Variables
 ECHO="echo -e"
 SMLOADR="$HOME/bin/SMLoadr" # Path to SMloader tool
-OUTPUT="$HOME/files/Music/"  # Path to output folder
+OUTPUT="$HOME/files/Music"  # Path to output folder
 # LOGDATE="date +%Y%m%d%H%M%S"
 LOG="tee -a $OUTPUT/deezbeezknees.log" # Path to logfile
 
